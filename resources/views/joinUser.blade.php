@@ -12,46 +12,49 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style>
-          .video-container {
-    display: flex;
-    gap: 20px; /* space between the two sections */
-    align-items: flex-start;
-    flex-wrap: wrap; /* wraps on smaller screens */
-  }
+        .video-container {
+            display: flex;
+            gap: 20px;
+            /* space between the two sections */
+            align-items: flex-start;
+            flex-wrap: wrap;
+            /* wraps on smaller screens */
+        }
 
-  #local-player {
-    width: 400px;
-    height: 300px;
-    background-color: #000;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-  }
+        #local-player {
+            width: 400px;
+            height: 300px;
+            background-color: #000;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
 
-  #remote-playerlist {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+        #remote-playerlist {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
 
-  .player {
-    width: 400px;
-    height: 300px;
-    background-color: #222;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-  }
+        .player {
+            width: 400px;
+            height: 300px;
+            background-color: #222;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
 
-  .player-name {
-    color: #e41111;
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
+        .player-name {
+            color: #e41111;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
 
-  #player-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+        #player-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         /* General Styles */
         body {
             font-family: Arial, sans-serif;
@@ -160,45 +163,36 @@
 
 <body>
     @if (!session()->has('meeting'))
-        <input  type="text" name="name" id="linkname" value="" placeholder="Enter your name"
+        <input type="text" name="name" id="linkname" value="" placeholder="Enter your name"
             style="width: 80%; padding: 10px; border: 2px solid #ddd; border-radius: 30px; font-size: 16px; outline: none; transition: 0.3s;">
     @endif
 
-    <input style="border-radius: 30px;" type="text" id="linkUrl" value="{{ url('joinMeeting') }}/{{ $meeting->url }}"
-        placeholder="Enter or generate a meeting link">
+    <input style="border-radius: 30px;" type="text" id="linkUrl"
+        value="{{ url('joinMeeting') }}/{{ $meeting->url }}" placeholder="Enter or generate a meeting link">
 
     <button id="join-form" style="display:none;"></button>
     <div id="">
-        <button style="border-radius: 30px;"  id="join-form2">Join Stream</button>
+        <button style="border-radius: 30px;" id="join-form2">Join Stream</button>
         <button style="border-radius: 30px;" id="join-forms" onclick="copyLink()">Copy Link</button>
     </div>
 
-    <!-- Meeting Instance -->
 
-        {{-- <div id="video-streams"></div> --}}
+    <div class="video-container">
+        <div>
+            <div id="local-player-name"></div>
+            <div id="local-player" class="player"></div>
+        </div>
 
-
-
-    {{-- <div id="local-player-name"></div>
-        <div id="local-player" class="player"></div>
-
-        <div id="remote-playerlist"></div> --}}
-        <div class="video-container">
-            <div>
-              <div id="local-player-name"></div>
-              <div id="local-player" class="player"></div>
-            </div>
-
-            <div id="remote-playerlist"></div>
-          </div>
-          <div id="stream-wrapper">
-          <div id="stream-controls">
+        <div id="remote-playerlist"></div>
+    </div>
+    <div id="stream-wrapper">
+        <div id="stream-controls">
             <button id="leave-btn">Leave Stream</button>
             <button id="mic-btn">Mic On</button>
             <button id="camera-btn">Camera On</button>
 
         </div>
-          </div>
+    </div>
 
 
     <input id="appid" type="hidden" value="{{ $meeting->app_id }}" readonly>
@@ -246,8 +240,8 @@
             console.log("Joining the stream...", options);
 
             // 🔁 Attach event listeners
-            client.on("user-published",handleUserPublished);
-            client.on("user-unpublished",handleUserUnpublished);
+            client.on("user-published", handleUserPublished);
+            client.on("user-unpublished", handleUserUnpublished);
 
 
             // 🔁 Join channel and create local tracks
